@@ -15,10 +15,10 @@ class InputProcessor(esper.Processor):
         print('Input processor')
         scheduler = self.world.get_processor(EventSystem).turn_scheduler
         for ent, ctrl in self.world.get_component(Joystick):
-            print(scheduler.next_key().uid)
+            print(scheduler.next_key().name, scheduler.next_key().uid)
             if ent == scheduler.next_key():
                 key = blt.read()
-                print(ent.uid, 'Have input', key)
+                print(ent.name, 'Have input', key)
 
                 action = self.world.component_for_entity(ent, Action)
                 for k, v in ctrl.handle_player_turn_keys(key).items():
@@ -27,7 +27,6 @@ class InputProcessor(esper.Processor):
                     action.flag = True
                     if key == 22:
                         action.cost = 1
-                # if ent not in scheduler.scheduled_events.queue:
                 scheduler.schedule_event(ent, action.cost)
-                for ent, val in scheduler.scheduled_events.queue.items():
-                    print(ent.uid, val)
+                for ent_, val in scheduler.scheduled_events.queue.items():
+                    print(ent_.name, val)

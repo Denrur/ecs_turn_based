@@ -3,6 +3,7 @@ from systems.event_system import EventSystem
 from components.action import Action
 from components.damager import Damager
 from components.physics import Physics
+from utils.decorators import debug_info
 
 
 class ActionProcessor(Processor):
@@ -10,11 +11,9 @@ class ActionProcessor(Processor):
         super().__init__()
         self.current_entity = None
 
+    @debug_info
     def process(self):
-        # print('Action processor')
         scheduler = self.world.get_processor(EventSystem).turn_scheduler
-        # while True:
-        #     try:
         ent = scheduler.next_event()
 
         action = self.world.component_for_entity(ent, Action)
@@ -28,7 +27,6 @@ class ActionProcessor(Processor):
             dmg.target = action.param
             dmg.attack = action.flag
         self.current_entity = ent
-        # print(self.current_entity)
 
 
 

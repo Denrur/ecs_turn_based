@@ -24,9 +24,8 @@ class PhysicProcessor(esper.Processor):
     def process(self, *args, **kwargs):
         print('Physic processor')
         ent = self.world.get_processor(ActionProcessor).current_entity
-        # for ent in entities_order:
         action = self.world.component_for_entity(ent, Action)
-        print(ent.uid, action.type, action.cost)
+        print(ent.name, action.type, action.cost)
         if action.type == 'move':
             phys = self.world.component_for_entity(ent, Physics)
             pos = self.world.component_for_entity(ent, Position)
@@ -52,4 +51,4 @@ class PhysicProcessor(esper.Processor):
                 entities = [k for k, v in self.world.get_component(Position)
                             if (v.x, v.y) == (pos.x + tar_x, pos.y + tar_y)]
                 for entity in entities:
-                    print(f'{ent.uid} hit {entity.uid} with {dmg.power}')
+                    print(f'{ent.name} hit {entity.name} with {dmg.power}')

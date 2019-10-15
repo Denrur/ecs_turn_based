@@ -22,6 +22,7 @@ def play_game():
     world = World()
 
     player = world.create_entity()
+    player.name = 'Player'
     world.add_component(player, Position(x=10, y=10))
     world.add_component(player, Joystick())
     world.add_component(player, Renderable(char='@', posx=10, posy=10, layer=2))
@@ -30,21 +31,24 @@ def play_game():
     world.add_component(player, Physics(collidable=True))
 
     dagger = world.create_entity()
+    dagger.name = 'Dagger'
     world.add_component(dagger, Position(x=9, y=9))
     world.add_component(dagger, Item(coast=5, weight=4))
     world.add_component(dagger, Renderable(char='-', posx=9, posy=10, color='blue'))
 
     enemy = world.create_entity()
+    enemy.name = 'Worm'
     world.add_component(enemy, Position(x=11, y=11))
-    world.add_component(enemy, Renderable(char='x', posx=11, posy=11, color='red', layer=1))
+    world.add_component(enemy, Renderable(char='s', posx=11, posy=11, color='red', layer=1))
     world.add_component(enemy, Ai(NPC()))
     world.add_component(enemy, Action())
     world.add_component(enemy, Damager())
     world.add_component(enemy, Physics(collidable=True))
 
     enemy = world.create_entity()
+    enemy.name = 'Goblin'
     world.add_component(enemy, Position(x=15, y=11))
-    world.add_component(enemy, Renderable(char='x', posx=15, posy=11, color='green', layer=1))
+    world.add_component(enemy, Renderable(char='g', posx=15, posy=11, color='green', layer=1))
     world.add_component(enemy, Ai(NPC()))
     world.add_component(enemy, Action())
     world.add_component(enemy, Damager())

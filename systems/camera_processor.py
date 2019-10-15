@@ -17,10 +17,8 @@ class CameraProcessor(esper.Processor):
 
     @benchmark
     def process(self):
-        print('Camera processor')
         for ent, (joyst, pos) in self.world.get_components(Joystick, Position):
             self.move_camera(pos.x, pos.y)
-            # rand = self.world.component_for_entity(ent, Renderable)
 
         for ent, (rend, pos) in self.world.get_components(Renderable, Position):
             rend.x, rend.y = self.to_camera_coordinates(pos.x, pos.y)
@@ -45,4 +43,3 @@ class CameraProcessor(esper.Processor):
         for ent, rend in self.world.get_component(Renderable):
             if rend.x in range(self.camera.width - 1) and rend.y in range(self.camera.height):
                 self.camera.view.add(ent)
-        # print(len(self.camera.view))

@@ -13,7 +13,6 @@ class Ai:
 
 class NPC:
     def __init__(self):
-        self.name = 'NPC'
         self.graph = GridWithWeights
 
     def take_turn(self, world=None, pos=None):

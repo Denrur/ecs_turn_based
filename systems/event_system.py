@@ -14,4 +14,4 @@ class EventSystem(Processor):
                 self.turn_scheduler.schedule_event(ent, act.cost)
 
         for ent, val in self.turn_scheduler.scheduled_events.queue.items():
-            print(ent.uid, val)
+            print(ent.name, val)

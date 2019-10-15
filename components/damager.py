@@ -1,5 +1,5 @@
 class Damager:
-    def __init__(self, attack_power=1, attack_range=1, attack_type='melee'):
+    def __init__(self, attack_power: int = 1, attack_range: int = 1, attack_type: str = 'melee'):
         self.power = attack_power
         self.range = attack_range
         self.type = attack_type

@@ -2,7 +2,8 @@ import time as _time
 
 from functools import lru_cache as _lru_cache
 from typing import List, Type, TypeVar, Any, Tuple, Iterable
-from utils.decorators import benchmark
+
+
 C = TypeVar('C')
 P = TypeVar('P')
 
@@ -24,7 +25,7 @@ class Processor:
 
 
 class Entity:
-    def __init__(self, uid, name=None):
+    def __init__(self, uid: int, name: str = None):
         self.uid = uid
         self.name = name
 
@@ -58,7 +59,7 @@ class World:
         self._entities.clear()
         self.clear_cache()
 
-    def add_processor(self, processor_instance: Processor, priority=0) -> None:
+    def add_processor(self, processor_instance: Processor, priority: int = 0) -> None:
         """Add a Processor instance to the World.
 
         :param processor_instance: An instance of a Processor,

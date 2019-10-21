@@ -3,30 +3,32 @@ from components.joystick import Joystick
 from components.action import Action
 from systems.event_system import EventSystem
 from bearlibterminal import terminal as blt
-from utils.decorators import benchmark
 
 
 class InputProcessor(esper.Processor):
     def __init__(self):
         super().__init__()
 
-    # @benchmark
     def process(self):
-        print('Input processor')
+        print(f'Input processor {self.world.timer=}')
         scheduler = self.world.get_processor(EventSystem).turn_scheduler
+
         for ent, ctrl in self.world.get_component(Joystick):
-            print(scheduler.next_key().name, scheduler.next_key().uid)
+            print(f'{scheduler.next_key().name=}, {scheduler.next_key().uid=}')
+
             if ent == scheduler.next_key():
                 key = blt.read()
+
                 print(ent.name, 'Have input', key)
 
                 action = self.world.component_for_entity(ent, Action)
+
                 for k, v in ctrl.handle_player_turn_keys(key).items():
                     action.type = k
                     action.param = v
                     action.flag = True
-                    if key == 22:
-                        action.cost = 1
+
                 scheduler.schedule_event(ent, action.cost)
-                for ent_, val in scheduler.scheduled_events.queue.items():
-                    print(ent_.name, val)
+
+        for ent_, val in scheduler.scheduled_events.queue.items():
+            print(f'{ent_.name=}, {val=}')

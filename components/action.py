@@ -1,6 +1,6 @@
 class Action:
-    def __init__(self):
-        self.type = None
-        self.cost = 3
-        self.param = None
-        self.flag = True
+    def __init__(self, type_=None, cost=3, param=None, flag=True):
+        self.type = type_
+        self.cost = cost
+        self.param = param
+        self.flag = flag

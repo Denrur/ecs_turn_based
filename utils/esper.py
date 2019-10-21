@@ -43,6 +43,7 @@ class World:
         self._components = {}
         self._entities = {}
         self._dead_entities = set()
+        self.timer = 0
         if timed:
             self.process_times = {}
             self._process = self._timed_process

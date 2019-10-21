@@ -22,10 +22,10 @@ class PhysicProcessor(esper.Processor):
 
     # @benchmark
     def process(self, *args, **kwargs):
-        print('Physic processor')
+        print(f'Physic processor {self.world.timer=}')
         ent = self.world.get_processor(ActionProcessor).current_entity
         action = self.world.component_for_entity(ent, Action)
-        print(ent.name, action.type, action.cost)
+        print(f'{ent.name=}, {action.type=}, {action.cost=}')
         if action.type == 'move':
             phys = self.world.component_for_entity(ent, Physics)
             pos = self.world.component_for_entity(ent, Position)
@@ -36,13 +36,14 @@ class PhysicProcessor(esper.Processor):
                     if self.world.has_component(entity, Physics):
                         if self.world.component_for_entity(entity, Physics).collidable:
                             phys.move = False
-                            print(f'{entity.name} {entity.uid} cannot be passed')
+                            print(f'{entity.name=} {entity.uid=} cannot be passed')
                             break
                 else:
                     rend = self.world.component_for_entity(ent, Renderable)
                     rend.x += phys.x
                     rend.y += phys.y
                     move(pos, phys)
+                print(f'{ent.name=} {pos.x=} {pos.y=} ')
         elif action.type == 'attack':
             pos = self.world.component_for_entity(ent, Position)
             dmg = self.world.component_for_entity(ent, Damager)
@@ -51,4 +52,4 @@ class PhysicProcessor(esper.Processor):
                 entities = [k for k, v in self.world.get_component(Position)
                             if (v.x, v.y) == (pos.x + tar_x, pos.y + tar_y)]
                 for entity in entities:
-                    print(f'{ent.name} hit {entity.name} with {dmg.power}')
+                    print(f'{ent.name=} hit {entity.name=} with {dmg.power=}')

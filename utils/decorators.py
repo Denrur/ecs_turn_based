@@ -32,26 +32,3 @@ def benchmark(fn):
         print(fn.__name__, time() - start)
         return res
     return wrapper_bench
-
-
-def debug_info(Cls):
-    # todo : make a valid debug decorator
-    class NewCls(object):
-        def __init__(self, *args, **kwargs):
-            self.oInstance = Cls(*args, **kwargs)
-
-        def __getattribute__(self, s):
-            """
-            this is called whenever any attribute of a NewCls object is accessed. This function first tries to
-            get the attribute off NewCls. If it fails then it tries to fetch the attribute from self.oInstance (an
-            instance of the decorated class). If it manages to fetch the attribute from self.oInstance, and
-            the attribute is an instance method then `time_this` is applied.
-            """
-            try:
-                x = super(NewCls, self).__getattribute__(s)
-            except AttributeError:
-                pass
-            else:
-                return x
-
-    return NewCls

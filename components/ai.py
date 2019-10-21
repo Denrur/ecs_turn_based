@@ -23,7 +23,6 @@ class NPC:
             action_type = 'attack'
             action_flag = True
             param = (goal[0] - pos.x, goal[1] - pos.y)
-            cost = 3
 
         else:
             graph = self.graph(world, pos.x, pos.y, 20)
@@ -34,5 +33,4 @@ class NPC:
             action_type = 'move'
             action_flag = True
             param = destination
-            cost = 3
-        return action_type, param, action_flag, cost
+        return action_type, param, action_flag

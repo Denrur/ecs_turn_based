@@ -23,7 +23,7 @@ class ActionProcessor(Processor):
             phys.move = action.flag
         if action.type == 'attack':
             dmg = self.world.component_for_entity(ent, Damager)
-            dmg.target = action.param
+            dmg.x, dmg.y = action.param
             dmg.attack = action.flag
         self.current_entity = ent
         print(f'{ent.name=}, {action.type=}')

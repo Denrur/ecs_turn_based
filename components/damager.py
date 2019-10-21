@@ -3,6 +3,7 @@ class Damager:
         self.power = attack_power
         self.range = attack_range
         self.type = attack_type
-        self.target = None
+        self.x = None
+        self.y = None
         self.attack = False
         self.cost = 2

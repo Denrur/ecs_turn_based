@@ -15,16 +15,17 @@ class RenderProcessor(Processor):
         blt.clear()
         for ent in self.world.get_processor(CameraProcessor).camera.view:
             rend = self.world.component_for_entity(ent, Renderable)
-        # for ent, (rend, cam) in self.world.get_components(Renderable, Camera):
             blt.color(rend.color)
-            blt.layer(rend.layer)
+            blt.layer(rend.layer.value)
             blt.put(rend.x, rend.y, rend.char)
             blt.color('white')
             blt.layer(0)
             print(f'{ent.name=}, {rend.x=}, {rend.y=}')
 
         self.render_camera_canvas()
+
         blt.refresh()
+
         self.world.timer += 1
 
     def render_camera_canvas(self):
@@ -42,4 +43,3 @@ class RenderProcessor(Processor):
         for y in range(1, cam.height):
             blt.color('cyan')
             blt.put(cam.width, y, '#')
-

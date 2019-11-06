@@ -1,5 +1,6 @@
 import utils.esper as esper
 from utils.noise_map import make_noise_map
+from utils.layers import Layers
 import itertools
 from random import randint
 from collections import defaultdict
@@ -7,7 +8,6 @@ from components.game_map import GameMap
 from components.position import Position
 from components.renderable import Renderable
 from components.physics import Physics
-from utils.decorators import benchmark
 
 
 class MapProcessor(esper.Processor):
@@ -15,7 +15,6 @@ class MapProcessor(esper.Processor):
         super().__init__()
         self.current_map = None
 
-    @benchmark
     def process(self, *args, **kwargs):
         print('Map processor')
         player_position = self.world.component_for_entity(self.current_map.player, Position)
@@ -37,30 +36,25 @@ class MapProcessor(esper.Processor):
                     max_noise - min_noise)
             terrain = self.world.create_entity()
             self.world.add_component(terrain, Position(j, k))
-            self.world.add_component(terrain, Renderable('[U+2588]', kind='terrain', sprite=21 * 16 + 1,
-                                                         color='dark yellow',
-                                                         transparency=True, explorable=True))
+            self.world.add_component(terrain, Renderable('.',
+                                                         color='dark yellow', layer=Layers.MAP))
 
             if height_map[(j, k)] < 0.3:
                 water = self.world.create_entity()
                 self.world.add_component(water, Position(j, k))
-                self.world.add_component(water, Renderable('~', sprite=80+1, kind='water', color='blue',
-                                                           transparency=True, explorable=True))
+                self.world.add_component(water, Renderable('~',  color='blue',layer=Layers.MAP))
             elif height_map[(j, k)] < 0.7:
                 if randint(0, 100) > 90:
                     tree = self.world.create_entity()
                     self.world.add_component(tree, Position(j, k))
                     self.world.add_component(tree, Physics(collidable=True))
-                    self.world.add_component(tree, Renderable('*', color='green', sprite=39, kind='tree',
-                                                              transparency=True, explorable=True, layer=1))
+                    self.world.add_component(tree, Renderable('*', color='green',layer=Layers.MAP))
 
             elif height_map[(j, k)] < 1:
                 mountain = self.world.create_entity()
                 self.world.add_component(mountain, Position(j, k))
                 self.world.add_component(mountain, Physics(collidable=True))
-                self.world.add_component(mountain, Renderable('^', color='grey', sprite=3,
-                                                              kind='mountain', transparency=False, explorable=True,
-                                                              layer=1))
+                self.world.add_component(mountain, Renderable('^', color='grey',layer=Layers.MAP))
 
     def add_new_chunks(self, x, y, game_map):
 

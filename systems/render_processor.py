@@ -12,6 +12,7 @@ class RenderProcessor(Processor):
         pass
 
     def process(self, *args, **kwargs):
+        print(f'Render Processor {self.world.timer=}')
         blt.clear()
         for ent in self.world.get_processor(CameraProcessor).camera.view:
             rend = self.world.component_for_entity(ent, Renderable)
@@ -20,7 +21,7 @@ class RenderProcessor(Processor):
             blt.put(rend.x, rend.y, rend.char)
             blt.color('white')
             blt.layer(0)
-            print(f'{ent.name=}, {rend.x=}, {rend.y=}')
+            # print(f'{ent.name=}, {rend.x=}, {rend.y=}')
 
         self.render_camera_canvas()
 

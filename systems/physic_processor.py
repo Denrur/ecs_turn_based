@@ -1,15 +1,15 @@
 import utils.esper as esper
 from components.action import Action
 from components.damager import Damager
-from components.effects import Effects
+from components.condition import Condition
+from components.joystick import Joystick
 from components.health import Health
 from components.physics import Physics
 from components.position import Position
 from components.renderable import Renderable
 
 from systems.action_processor import ActionProcessor
-from systems.effect_processor import EffectProcessor
-from utils.decorators import benchmark
+from systems.condition_process import ConditionProcessor
 
 
 def move(pos, phys):
@@ -24,7 +24,6 @@ class PhysicProcessor(esper.Processor):
     def __init__(self):
         super().__init__()
 
-    # @benchmark
     def process(self, *args, **kwargs):
         print(f'Physic processor {self.world.timer=}')
         ent = self.world.get_processor(ActionProcessor).current_entity
@@ -46,6 +45,11 @@ class PhysicProcessor(esper.Processor):
                         dmg.attack = True
                         dmg.x, dmg.y = phys.x, phys.y
                         print(f'{ent.name=} {action.type=} {action.flag=}')
+            effects = self.world.component_for_entity(ent, Condition)
+            print(f'{ent.name} {list(effects.conditions_list)}')
+            if ConditionProcessor.stun_effect in effects.conditions_list:
+                phys.move = False
+                print(f'           not moving {ent.name=} {phys.move=}')
             if phys.move:
                 rend = self.world.component_for_entity(ent, Renderable)
                 rend.x += phys.x
@@ -58,12 +62,16 @@ class PhysicProcessor(esper.Processor):
             entities = [k for k, v in self.world.get_component(Position)
                         if (v.x, v.y) == (pos.x + tar_x, pos.y + tar_y)]
             for entity in entities:
+                if self.world.has_component(entity, Joystick):
+                    pass
+                else:
+                    self.world.get_processor(ConditionProcessor).add_effect(entity, ConditionProcessor.stun_effect, 20)
                 if self.world.has_component(entity, Health):
                     health = self.world.component_for_entity(entity, Health)
                     health.hp -= dmg.power
                     print(f'{ent.name=} hit {entity.name=} with {dmg.power=}, {entity.name=} left {health.hp=}')
                     if health.hp <= 0:
-                        self.world.get_processor(EffectProcessor).add_effect(entity, 'death', -1)
+                        self.world.get_processor(ConditionProcessor).add_effect(entity, ConditionProcessor.death_condition, -1)
                         print(f'{self.world.components_for_entity(entity)=}')
                 else:
                     print(f'{ent.name} can\'t hurt {entity.name}')

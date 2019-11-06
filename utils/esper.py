@@ -98,7 +98,7 @@ class World:
             if type(processor) == processor_type:
                 return processor
 
-    def create_entity(self, *components) -> object:
+    def create_entity(self, *components, name=None) -> object:
         """Create a new Entity.
 
         This method returns an Entity object, which is just contain entity uid.
@@ -107,10 +107,11 @@ class World:
 
         :param components: Optional components to be assigned to the
                entity on creation.
+        :param name: Optional name of entity
         :return: The next Entity ID in sequence.
         """
         self._next_entity_id += 1
-        entity = Entity(self._next_entity_id)
+        entity = Entity(self._next_entity_id, name=name)
         # TODO: duplicate add_component code here for performance
         for component in components:
             self.add_component(entity, component)

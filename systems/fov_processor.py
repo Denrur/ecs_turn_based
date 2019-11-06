@@ -5,14 +5,12 @@ from components.renderable import Renderable
 from components.physics import Physics
 from systems.map_processor import MapProcessor
 from utils import rpas
-from utils.decorators import benchmark
 
 
 class FovProcessor(esper.Processor):
     def __init__(self):
         super().__init__()
 
-    @benchmark
     def process(self):
         print('Fov processor')
         for ent, (fov, pos) in self.world.get_components(Fov, Position):

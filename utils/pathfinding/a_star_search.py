@@ -8,7 +8,7 @@ def heuristic(a, b):
     return abs(x1 - x2) + abs(y1 - y2)
 
 
-# @benchmark
+@benchmark
 def a_star_search(graph, start, goal):
     print(f'A-star {start=}, {goal=}')
 

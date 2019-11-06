@@ -15,8 +15,9 @@ class CameraProcessor(esper.Processor):
         for ent, cam in self.world.get_component(Camera):
             self.camera = cam
 
-    # @benchmark
+    @benchmark
     def process(self):
+        print(f'Camera processor {self.world.timer=}'.center(100, '#'))
         for ent, (joy, pos) in self.world.get_components(Joystick, Position):
             if self.camera.lock:
                 self.move_camera(pos.x, pos.y)
@@ -42,5 +43,9 @@ class CameraProcessor(esper.Processor):
     def entities_in_camera_view(self):
         self.camera.view = set()
         for ent, rend in self.world.get_component(Renderable):
+            if ent.name in ['Player', 'Goblin', 'Worm']:
+                print(f'{ent.name=}, {rend.x=}, {rend.y=}')
             if rend.x in range(1, self.camera.width) and rend.y in range(1, self.camera.height):
+                if ent.name in ['Player', 'Goblin', 'Worm']:
+                    print(f'{ent.name=}, {rend.x=}, {rend.y=} in camera viwe')
                 self.camera.view.add(ent)

@@ -3,6 +3,8 @@ import time as _time
 from functools import lru_cache as _lru_cache
 from typing import List, Type, TypeVar, Any, Tuple, Iterable
 
+from utils.decorators import benchmark
+
 
 C = TypeVar('C')
 P = TypeVar('P')
@@ -318,7 +320,7 @@ class World:
             process_time = int(round((_time.process_time() - start_time) * 1000, 2))
             self.process_times[processor.__class__.__name__] = process_time
 
-    # @benchmark
+    @benchmark
     def process(self, *args, **kwargs):
         """Call the process method on all Processors, in order of their priority.
 

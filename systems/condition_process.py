@@ -14,15 +14,15 @@ class ConditionProcessor(Processor):
         super().__init__()
 
     def process(self):
-        print(f'ConditionProcessor {self.world.timer=}')
+        print(f'ConditionProcessor {self.world.timer=}'.center(100, '#'))
         for entity, conditions in self.world.get_component(Condition):
             active_conditions = self.proceed(entity, conditions.conditions_list)
             for condition in active_conditions:
                 condition(self, entity)
-            print(f' Effects on {entity.name=} {active_conditions=}')
+            # print(f' Effects on {entity.name=} {active_conditions=}')
 
     def add_effect(self, entity, effect, duration=-1, power=None):
-        print(f'add {effect=} to {entity.name=}')
+        # print(f'add {effect=} to {entity.name=}')
         if self.world.has_component(entity, Condition):
             cond = self.world.component_for_entity(entity, Condition)
             if cond not in cond.conditions_list:

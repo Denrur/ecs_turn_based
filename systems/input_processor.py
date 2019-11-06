@@ -10,7 +10,7 @@ class InputProcessor(esper.Processor):
         super().__init__()
 
     def process(self):
-        print(f'Input processor {self.world.timer=}')
+        print(f'Input processor {self.world.timer=}'.center(100, '#'))
         scheduler = self.world.get_processor(EventSystem).turn_scheduler
 
         for ent, ctrl in self.world.get_component(Joystick):

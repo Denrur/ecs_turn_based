@@ -16,7 +16,7 @@ class MapProcessor(esper.Processor):
         self.current_map = None
 
     def process(self, *args, **kwargs):
-        print('Map processor')
+        print('Map processor'.center(100, '#'))
         player_position = self.world.component_for_entity(self.current_map.player, Position)
         self.add_new_chunks(player_position.x, player_position.y, self.current_map)
         self.get_entities_positions()
@@ -34,24 +34,25 @@ class MapProcessor(esper.Processor):
         for (j, k) in height_map:
             height_map[(j, k)] = (height_map[(j, k)] - min_noise) / (
                     max_noise - min_noise)
-            terrain = self.world.create_entity()
+            terrain = self.world.create_entity(name='Terrain')
             self.world.add_component(terrain, Position(j, k))
             self.world.add_component(terrain, Renderable('.',
                                                          color='dark yellow', layer=Layers.MAP))
-
+            self.world.add_component(terrain, Physics())
             if height_map[(j, k)] < 0.3:
-                water = self.world.create_entity()
+                water = self.world.create_entity(name='Water')
                 self.world.add_component(water, Position(j, k))
                 self.world.add_component(water, Renderable('~',  color='blue',layer=Layers.MAP))
+                self.world.add_component(water, Physics())
             elif height_map[(j, k)] < 0.7:
                 if randint(0, 100) > 90:
-                    tree = self.world.create_entity()
+                    tree = self.world.create_entity(name='Tree')
                     self.world.add_component(tree, Position(j, k))
                     self.world.add_component(tree, Physics(collidable=True))
                     self.world.add_component(tree, Renderable('*', color='green',layer=Layers.MAP))
 
             elif height_map[(j, k)] < 1:
-                mountain = self.world.create_entity()
+                mountain = self.world.create_entity(name='Mountain')
                 self.world.add_component(mountain, Position(j, k))
                 self.world.add_component(mountain, Physics(collidable=True))
                 self.world.add_component(mountain, Renderable('^', color='grey',layer=Layers.MAP))

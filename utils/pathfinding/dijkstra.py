@@ -26,13 +26,18 @@ def dijkstra_search(graph, start, goal):
 
 
 def reconstruct_path(came_from, start, goal):
+    print(f'{start=}, {goal=}')
     current = goal
-    path = []
+    path = list()
+    path.append(start)  # optional
     i = 0
-    while current != start:
+    for c in sorted(came_from):
+        print(f'{c=} {came_from[c]}')
+    while current != start and i < 100:
+        print(f'{i=}, {current=}')
         i += 1
         path.append(current)
         current = came_from.get(current)
-    # path.append(start)  # optional
+
     path.reverse()  # optional
     return path

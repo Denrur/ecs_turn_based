@@ -10,6 +10,8 @@ def heuristic(a, b):
 
 # @benchmark
 def a_star_search(graph, start, goal):
+    print(f'A-star {start=}, {goal=}')
+
     frontier = PriorityQueue()
     frontier.put(start, 0)
     came_from = dict()
@@ -20,6 +22,7 @@ def a_star_search(graph, start, goal):
     while not frontier.empty():
         current = frontier.get()
         if current == goal:
+            print('break')
             break
 
         for next_node in graph.neighbors(current):
@@ -31,3 +34,21 @@ def a_star_search(graph, start, goal):
                 came_from[next_node] = current
 
     return came_from, cost_so_far
+
+
+def reconstruct_path(came_from, start, goal):
+    print(f'{start=}, {goal=}')
+    current = goal
+    path = list()
+    path.append(start)  # optional
+    i = 0
+    for c in sorted(came_from):
+        print(f'{c=} {came_from[c]}')
+    while current != start and i < 100:
+        print(f'{i=}, {current=}')
+        i += 1
+        path.append(current)
+        current = came_from.get(current)
+
+    path.reverse()  # optional
+    return path

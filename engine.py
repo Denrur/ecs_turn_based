@@ -1,6 +1,7 @@
 from bearlibterminal import terminal as blt
 from utils.esper import World
 from utils.layers import Layers
+from utils.decorators import benchmark
 
 from components.action import Action
 from components.ai import Ai, NPC
@@ -48,6 +49,7 @@ def play_game():
     world.create_entity(Item(coast=5, weight=4),
                         Position(x=1, y=10),
                         Renderable(char='-',  color='blue', layer=Layers.ITEMS),
+                        Physics(),
                         name='Dagger')
 
     world.create_entity(Renderable(char='s', color='red', layer=Layers.ENTITIES),
@@ -70,7 +72,7 @@ def play_game():
                         Ai(NPC()),
                         name='Goblin')
 
-    processors = [InputProcessor, MapProcessor, AiProcessor, ActionProcessor, PhysicProcessor, ConditionProcessor,
+    processors = [InputProcessor, MapProcessor, ActionProcessor, PhysicProcessor, ConditionProcessor,
                   EventSystem, CameraProcessor, RenderProcessor]
 
     for prior, processor in enumerate(processors):
@@ -85,6 +87,7 @@ def play_game():
     blt.refresh()
 
     while True:
+
         world.process()
 
 

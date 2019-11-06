@@ -9,7 +9,7 @@ class EventSystem(Processor):
         self.turn_scheduler = TimeSchedule()
 
     def process(self, *args, **kwargs):
-        print(f'Event System {self.world.timer=}')
+        print(f'Event System {self.world.timer=}'.center(100, '#'))
         for ent, act in self.world.get_component(Action):
             if ent not in self.turn_scheduler.scheduled_events.queue:
                 print(f'Add {ent.name} with {act.cost=} to scheduler')
